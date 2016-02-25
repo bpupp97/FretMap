@@ -28,11 +28,12 @@
 	left: 0px;
 	width: 0px;
 	height: 0px;
-	background-color: #0f0;
 	z-index: 999;
 	border-radius: 999px;
-	transition: opacity 1s;
-	opacity: 0;
+	transition: opacity 0.5s, left 0.5s, top 0.5s;
+	opacity: 0.6;
+	box-shadow: 0 0 5px #000;
+	background-color: #eee;
 }
 
 #control {

@@ -20,6 +20,8 @@
 		<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
 		<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
 		<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
+		
+		<button onclick="markSet([[1,3], [1,5],[1,7],[1,9],[1,12]])">test</button>
 		</div>
 	</div>
 
@@ -68,6 +70,9 @@ function markFret(string, fret) {
 	mark.id = "child";
 	document.getElementById("window").appendChild(mark);
 		
+	mark.style.width = format(width*0.007);
+	mark.style.height = format(width*0.007);
+	
 	var newLeft = width * ((fretPos(fret - 1) + fretPos(fret)) / 2)
 	var offset = (document.getElementById("window").childElementCount - 3) * parseFloat(mark.previousSibling.style.width);
 	
@@ -75,52 +80,50 @@ function markFret(string, fret) {
 	
 	switch (string) {
 	case 1: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.578 + newLeft / width * 0.036)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.58 + newLeft / width * 0.035)); 
 		noteVal = 0;
 		break;
 	case 2: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.548 + newLeft / width * 0.022)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.548 + newLeft / width * 0.022)); 
 		noteVal = 5;
 		break;
 	case 3: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.519 + newLeft / width * 0.007)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.519 + newLeft / width * 0.007)); 
 		noteVal = 10;
 		break;
 	case 4: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.489 + newLeft / width * -0.007)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.489 + newLeft / width * -0.007)); 
 		noteVal = 15;
 		break;
 	case 5: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.459 + newLeft / width * -0.022)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.459 + newLeft / width * -0.022)); 
 		noteVal = 19;
 		break;
 	case 6: 
-		mark.style.top = format(top - offset + (width * -0.00375) + width * 3/8 * (-0.429 + newLeft / width * -0.036)); 
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.429 + newLeft / width * -0.036)); 
 		noteVal = 24;
 		break;
 	default: break;
 	}
 	
-	noteVal = noteVal + fret;
+	mark.style.left = format(left + (width * -0.0035) + newLeft);
+	
+	/*noteVal = noteVal + fret;
 	
 	if (noteVal < 0)
-		mark.style.backgroundColor = "#000";
+		mark.style.boxShadow = "0px 0px 3px #000";
 	else if (noteVal < 12)
-		mark.style.backgroundColor = "#a00";
+		mark.style.boxShadow = "0px 0px 3px #a00";
 	else if (noteVal < 24)
-		mark.style.backgroundColor = "#ff0";
+		mark.style.boxShadow = "0px 0px 3px #ff0";
 	else if (noteVal < 36)
-		mark.style.backgroundColor = "#0a0";
+		mark.style.boxShadow = "0px 0px 3px #0a0";
 	else if (noteVal < 48)
-		mark.style.backgroundColor = "#00a";
+		mark.style.boxShadow = "0px 0px 3px #00a";
 	else
-		mark.style.backgroundColor = "#000";
-		
+		mark.style.boxShadow = "0px 0px 3px #000";
+	*/
 	
-	mark.style.left = format(left + (width * -0.00375) + newLeft);
-	mark.style.opacity = "0.8";
-	mark.style.width = format(width*0.0075);
-	mark.style.height = format(width*0.0075);
 }
 
 

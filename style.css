@@ -2,12 +2,19 @@
 	margin: 0; padding: 0;
 }
 
+body {
+	background-color: #eee;
+}
+
 #container {
 	width: 1600px;
 	height: 900px;
 	margin: auto;
 	margin-top: 40px;
-	background-color: #ddd;
+	background-color: #333;
+	border-radius: 20px;
+	box-shadow: 1px 1px 2px #000;
+	border: 2px solid #fff;
 }
 
 #window {
@@ -15,7 +22,10 @@
 	margin: auto;
 	height: 60%;
 	overflow: hidden;
-	background-color: #fff;
+	background-color: #444448;
+	border-right: 2px solid #fff;
+	border-left: 2px solid #fff;
+	border-bottom: 2px solid #fff;
 }
 #guitar {
 	position: relative;
@@ -38,29 +48,69 @@
 
 #control {
 	position: relative;
-	height: 40%;
+	height: 39.8%;
 	width: 90%;
 	margin: auto;
 	background-color: #222;
 	color: #eee;
+	border-right: 2px solid #fff;
+	border-left: 2px solid #fff;
+	border-bottom: 2px solid #fff;
+}
+
+#content {
+	width: 80%;
+	height: 100%;
+	float: left;
+	background-image: url("img/bg.jpg");
+	background-size: 100%;
 }
 
 #nav {
 	width: 100%;
 	white-space: nowrap;
 	border-bottom: 1px solid #fff;
+	background-color: #feb;
 }
 
 #nav .tab {
 	display: inline-block;
-	width: 20%;
-	height: 100%;
+	width: 24.75%;
+	margin-top: 2px;
+	margin-left: .2%;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
-	background-color: #ddd;
-	color: #222;
+	background-color: #333;
+	
+	color: #feb;
 	text-align: center;
-	font-family: sans-serif;
-	font-size: 20pt;
+	font-family: serif;
+	text-decoration: line-through;
+	font-weight: bold;
+	font-size: 24pt;
+	text-shadow: 1px 1px 1px #000;
+}
+#nav .tab:last-child {
+	margin-right: 3px;
+}
+
+#infoBox {
+	width: 20%;
+	height: 100%;
+	background-color: #444448;
+	float: right;
+	outline: 2px solid #fff;
+}
+#noteInfo {
+	height: 50%;
+	
+	line-height: 5;
+	color: #feb;
+	text-align: center;
+	font-family: serif;
+	text-decoration: line-through;
+	font-weight: bold;
+	font-size: 48pt;
+	text-shadow: 1px 1px 1px #000;
 	
 }

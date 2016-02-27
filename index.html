@@ -14,20 +14,25 @@
 			<div class="fretMark" id="parent"></div></div>
 		
 		<div id="control">
-			<div id="nav">
-				<div class="tab">Chords</div>
-				<div class="tab">Scales</div>
-				<div class="tab">Tab (Beta)</div>
+			<div id="content">
+				<div id="nav">
+					<div class="tab">CHORDS</div><div class="tab">SCALES</div><div class="tab">TAB (BETA)</div><div class="tab">IDK YET</div>
+				</div>
+				<button onclick="zoom(1440)">reset</button>
+				<button onclick="markSet([[5,1],[3,2],[2,3]])">C Chord</button>
+				<button onclick="markSet([[5,2],[4,2],[3,2]])">A Chord</button>
+				<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
+				<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
+				<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
+				<button onclick="markSet([[5,4],[3,5],[2,6],[1,3,6]])">C Form, 3rd Position</button>
 			</div>
-			<button onclick="zoom(1440)">reset</button>
-			<button onclick="markSet([[5,1],[3,2],[2,3]])">C Chord</button>
-			<button onclick="markSet([[5,2],[4,2],[3,2]])">A Chord</button>
-			<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
-			<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
-			<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
 			
-			<button onclick="markSet([[5,4],[3,5],[2,6],[1,3,6]])">C Form, 3rd Position</button>
-			<div id="noteInfo"></div>
+			<div id="infoBox">
+				<div id="noteInfo">
+					
+				</div>
+			</div>
+			
 		</div>
 	</div>
 
@@ -114,8 +119,10 @@ function markFret(string, fret, bar = 1) {
 	
 	// scaling
 	mark.style.width = format(width*0.007);
-	if (bar > 1)
+	if (bar > 1) {
 		bar = bar * 1.05;
+		noteVal = -1;
+	}
 	mark.style.height = format(width*0.007*bar);
 	
 	/*if (noteVal < 0)
@@ -166,48 +173,48 @@ function fitTo(highFret, lowFret) {
 }
 
 function showInfo(note) {
-	infoBox = document.getElementById("noteInfo");
+	info = document.getElementById("noteInfo");
 	note = note % 12;
 	
 	switch (note) {
 		case 0:
-			infoBox.innerHTML = "A";
+			info.innerHTML = "A";
 			break;
 		case 1:
-			infoBox.innerHTML = "A#";
+			info.innerHTML = "A#";
 			break;
 		case 2:
-			infoBox.innerHTML = "B";
+			info.innerHTML = "B";
 			break;
 		case 3:
-			infoBox.innerHTML = "C";
+			info.innerHTML = "C";
 			break;
 		case 4:
-			infoBox.innerHTML = "C#";
+			info.innerHTML = "C#";
 			break;
 		case 5:
-			infoBox.innerHTML = "D";
+			info.innerHTML = "D";
 			break;
 		case 6:
-			infoBox.innerHTML = "D#";
+			info.innerHTML = "D#";
 			break;
 		case 7:
-			infoBox.innerHTML = "E";
+			info.innerHTML = "E";
 			break;
 		case 8:
-			infoBox.innerHTML = "F";
+			info.innerHTML = "F";
 			break;
 		case 9:
-			infoBox.innerHTML = "F#";
+			info.innerHTML = "F#";
 			break;
 		case 10:
-			infoBox.innerHTML = "G";
+			info.innerHTML = "G";
 			break;
 		case 11:
-			infoBox.innerHTML = "G#";
+			info.innerHTML = "G#";
 			break;
 		default:
-			infoBox.innerHTML = "?";
+			info.innerHTML = "";
 			break;
 	}
 }

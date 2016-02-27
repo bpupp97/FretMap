@@ -14,14 +14,20 @@
 			<div class="fretMark" id="parent"></div></div>
 		
 		<div id="control">
-		<button onclick="zoom(1440)">zoom</button>
-		<button onclick="markSet([[5,1],[3,2],[2,3]])">C Chord</button>
-		<button onclick="markSet([[5,2],[4,2],[3,2]])">A Chord</button>
-		<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
-		<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
-		<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
-		
-		<button onclick="markSet([[1,3], [1,5],[1,7],[1,9],[1,12]])">test</button>
+			<div id="nav">
+				<div class="tab">Chords</div>
+				<div class="tab">Scales</div>
+				<div class="tab">Tab (Beta)</div>
+			</div>
+			<button onclick="zoom(1440)">reset</button>
+			<button onclick="markSet([[5,1],[3,2],[2,3]])">C Chord</button>
+			<button onclick="markSet([[5,2],[4,2],[3,2]])">A Chord</button>
+			<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
+			<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
+			<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
+			
+			<button onclick="markSet([[5,4],[3,5],[2,6],[1,3,6]])">C Form, 3rd Position</button>
+			<div id="noteInfo"></div>
 		</div>
 	</div>
 
@@ -30,6 +36,7 @@
 <script>
 var BRIDGE_POS = 0.167
 var NUT_POS = 0.797
+// height of img is 3/8 the width
 
 function init() {
 	var img = document.getElementById("guitar");
@@ -38,9 +45,9 @@ function init() {
 	img.style.top = "0px";
 	var mark = document.getElementById("parent");
 	mark.style.width = "0px";
+	mark.style.height = "0px";
 }
 
-// height of img is 3/8 the width
 function format(input) {return input.toString().concat("px");}
 
 function cleanup() {
@@ -61,56 +68,57 @@ function zoom(width) {
 function fretPos(fret) {
 	return BRIDGE_POS + (NUT_POS - BRIDGE_POS) / (Math.pow(2, fret / 12));
 }
-function markFret(string, fret) {
+
+function markFret(string, fret, bar = 1) {
 	var mark = document.getElementById("parent").cloneNode(false);
 	var guitar = document.getElementById("guitar");
 	var width = parseFloat(guitar.style.width);
 	var left = parseFloat(guitar.style.left);
 	var top = parseFloat(guitar.style.top);
+	var noteVal = -1;
 	mark.id = "child";
 	document.getElementById("window").appendChild(mark);
-		
-	mark.style.width = format(width*0.007);
-	mark.style.height = format(width*0.007);
 	
+	// positioning
 	var newLeft = width * ((fretPos(fret - 1) + fretPos(fret)) / 2)
-	var offset = (document.getElementById("window").childElementCount - 3) * parseFloat(mark.previousSibling.style.width);
-	
-	var noteVal = -1;
-	
+	var offset = (document.getElementById("window").childElementCount - 3) * parseFloat(mark.previousSibling.style.height);
 	switch (string) {
 	case 1: 
-		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.58 + newLeft / width * 0.035)); 
-		noteVal = 0;
+		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.577 + newLeft / width * 0.035)); 
+		noteVal = 7;
 		break;
 	case 2: 
 		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.548 + newLeft / width * 0.022)); 
-		noteVal = 5;
+		noteVal = 12;
 		break;
 	case 3: 
 		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.519 + newLeft / width * 0.007)); 
-		noteVal = 10;
+		noteVal = 17;
 		break;
 	case 4: 
 		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.489 + newLeft / width * -0.007)); 
-		noteVal = 15;
+		noteVal = 22;
 		break;
 	case 5: 
 		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.459 + newLeft / width * -0.022)); 
-		noteVal = 19;
+		noteVal = 26;
 		break;
 	case 6: 
 		mark.style.top = format(top - offset + (width * -0.0035) + width * 3/8 * (-0.429 + newLeft / width * -0.036)); 
-		noteVal = 24;
+		noteVal = 31;
 		break;
 	default: break;
 	}
-	
 	mark.style.left = format(left + (width * -0.0035) + newLeft);
+	noteVal = noteVal + fret;
 	
-	/*noteVal = noteVal + fret;
+	// scaling
+	mark.style.width = format(width*0.007);
+	if (bar > 1)
+		bar = bar * 1.05;
+	mark.style.height = format(width*0.007*bar);
 	
-	if (noteVal < 0)
+	/*if (noteVal < 0)
 		mark.style.boxShadow = "0px 0px 3px #000";
 	else if (noteVal < 12)
 		mark.style.boxShadow = "0px 0px 3px #a00";
@@ -124,27 +132,85 @@ function markFret(string, fret) {
 		mark.style.boxShadow = "0px 0px 3px #000";
 	*/
 	
+	
+	mark.addEventListener("mouseenter", function() {showInfo(noteVal);});
 }
-
 
 function markSet(notes) {
 	var fMax = 0;
-	var fMin = 0;
+	var fMin = 21;
 	for (var i = 0; i < notes.length; i++) {
-		if (notes[i][1] > fMax) fMax = notes[i][1];
-		if (notes[i][1] < fMin) fMin = notes[i][1];
+		if (notes[i][1] > fMax) 
+			fMax = notes[i][1];
+		if (notes[i][1] < fMin) 
+			fMin = notes[i][1];
 	}
+	while (fMax - fMin < 3) {		
+		fMax += 0.5; 
+		fMin -= 0.5;
+		}
+		
 	fitTo(fMax, fMin)
 	for (var i = 0; i < notes.length; i++) {
-		markFret(notes[i][0],notes[i][1]);
+		if (notes[i].length < 3)
+			markFret(notes[i][0], notes[i][1]);
+		else
+			markFret(notes[i][0], notes[i][1], notes[i][2]);
 	}
 }
-
 
 function fitTo(highFret, lowFret) {
 	zoom(1440 / (fretPos(lowFret-1) - fretPos(highFret+1)));
 	var width = parseFloat(document.getElementById("guitar").style.width);
 	document.getElementById("guitar").style.left = format(-1 * width * fretPos(highFret+0.5));
 }
+
+function showInfo(note) {
+	infoBox = document.getElementById("noteInfo");
+	note = note % 12;
+	
+	switch (note) {
+		case 0:
+			infoBox.innerHTML = "A";
+			break;
+		case 1:
+			infoBox.innerHTML = "A#";
+			break;
+		case 2:
+			infoBox.innerHTML = "B";
+			break;
+		case 3:
+			infoBox.innerHTML = "C";
+			break;
+		case 4:
+			infoBox.innerHTML = "C#";
+			break;
+		case 5:
+			infoBox.innerHTML = "D";
+			break;
+		case 6:
+			infoBox.innerHTML = "D#";
+			break;
+		case 7:
+			infoBox.innerHTML = "E";
+			break;
+		case 8:
+			infoBox.innerHTML = "F";
+			break;
+		case 9:
+			infoBox.innerHTML = "F#";
+			break;
+		case 10:
+			infoBox.innerHTML = "G";
+			break;
+		case 11:
+			infoBox.innerHTML = "G#";
+			break;
+		default:
+			infoBox.innerHTML = "?";
+			break;
+	}
+}
+
 </script>
 

@@ -16,15 +16,33 @@
 		<div id="control">
 			<div id="content">
 				<div id="nav">
-					<div class="tab">CHORDS</div><div class="tab">SCALES</div><div class="tab">TAB (BETA)</div><div class="tab">IDK YET</div>
+					<div class="tab">CHORDS</div><div class="tab">SCALES</div><div class="tab">LEARN</div><div class="tab">TAB (BETA)</div>
 				</div>
-				<button onclick="zoom(1440)">reset</button>
-				<button onclick="markSet([[5,1],[3,2],[2,3]])">C Chord</button>
-				<button onclick="markSet([[5,2],[4,2],[3,2]])">A Chord</button>
-				<button onclick="markSet([[6,3],[2,2],[1,3]])">G Chord</button>
-				<button onclick="markSet([[4,1],[3,2],[2,2]])">E Chord</button>
-				<button onclick="markSet([[6,3],[5,2],[4,3]])">D Chord</button>
-				<button onclick="markSet([[5,4],[3,5],[2,6],[1,3,6]])">C Form, 3rd Position</button>
+				<div id="chords" class="active">
+					<button onclick="zoom(1440)">reset</button>
+					<button onclick="markSet([[2,1],[4,2],[5,3]])">C Chord</button>
+					<button onclick="markSet([[2,2],[3,2],[4,2]])">A Chord</button>
+					<button onclick="markSet([[1,3],[5,2],[6,3]])">G Chord</button>
+					<button onclick="markSet([[3,1],[4,2],[5,2]])">E Chord</button>
+					<button onclick="markSet([[1,3],[2,2],[3,3]])">D Chord</button>
+					<button onclick="markSet([[2,4],[4,5],[5,6],[6,3,6]])">C Form, 3rd Position</button>
+					<button onclick="markSet([[1,0],[2,0],[3,0],[4,0],[5,0],[6,0]])">all open</button>
+					<button onclick="markSet(findAll(0))">A</button>
+					<button onclick="markSet(findAll(1))">A#</button>
+					<button onclick="markSet(findAll(2))">B</button>
+					<button onclick="markSet(findAll(3))">C</button>
+					<button onclick="markSet(findAll(4))">C#</button>
+					<button onclick="markSet(findAll(5))">D</button>
+					<button onclick="markSet(findAll(6))">D#</button>
+					<button onclick="markSet(findAll(7))">E</button>
+					<button onclick="markSet(findAll(8))">F</button>
+					<button onclick="markSet(findAll(9))">F#</button>
+					<button onclick="markSet(findAll(10))">G</button>
+					<button onclick="markSet(findAll(11))">G#</button>
+				</div>
+				<div id="scales" class="inactive">
+					hello world
+				</div>
 			</div>
 			
 			<div id="infoBox">
@@ -75,6 +93,7 @@ function fretPos(fret) {
 }
 
 function markFret(string, fret, bar = 1) {
+	string = 7 - string; // cus i reversed the logic, great programming ikr
 	var mark = document.getElementById("parent").cloneNode(false);
 	var guitar = document.getElementById("guitar");
 	var width = parseFloat(guitar.style.width);
@@ -114,7 +133,10 @@ function markFret(string, fret, bar = 1) {
 		break;
 	default: break;
 	}
-	mark.style.left = format(left + (width * -0.0035) + newLeft);
+	if (fret == 0)
+		mark.style.left = format(left + width * (fretPos(fret) - 0.0035));
+	else
+		mark.style.left = format(left + (width * -0.0035) + newLeft);
 	noteVal = noteVal + fret;
 	
 	// scaling
@@ -125,22 +147,8 @@ function markFret(string, fret, bar = 1) {
 	}
 	mark.style.height = format(width*0.007*bar);
 	
-	/*if (noteVal < 0)
-		mark.style.boxShadow = "0px 0px 3px #000";
-	else if (noteVal < 12)
-		mark.style.boxShadow = "0px 0px 3px #a00";
-	else if (noteVal < 24)
-		mark.style.boxShadow = "0px 0px 3px #ff0";
-	else if (noteVal < 36)
-		mark.style.boxShadow = "0px 0px 3px #0a0";
-	else if (noteVal < 48)
-		mark.style.boxShadow = "0px 0px 3px #00a";
-	else
-		mark.style.boxShadow = "0px 0px 3px #000";
-	*/
-	
-	
 	mark.addEventListener("mouseenter", function() {showInfo(noteVal);});
+	setTimeout(function(){mark.style.opacity = 0.75;}, 500);
 }
 
 function markSet(notes) {
@@ -217,6 +225,20 @@ function showInfo(note) {
 			info.innerHTML = "";
 			break;
 	}
+}
+
+function findAll(note) {
+	// 0 = A, 11 = G#
+	var set = [];
+	var sVal = [0,31,26,22,17,12,7];
+	for (var i = 1; i <= 6; i++) {
+		for (var b = 0; b <= 21; b++) {
+			if ((sVal[i] + b) % 12 == note) {
+				set.push([i,b]);
+			}
+		}
+	}
+	return set;
 }
 
 </script>

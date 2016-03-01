@@ -40,12 +40,11 @@ body {
 	height: 0px;
 	z-index: 999;
 	border-radius: 999px;
-	transition: opacity 0.5s, left 0.5s, top 0.5s;
-	opacity: 0.6;
+	transition: opacity 0.5s;
+	opacity: 0.0;
 	box-shadow: 0 0 5px #000;
 	background-color: #eee;
 }
-
 #control {
 	position: relative;
 	height: 39.8%;
@@ -68,8 +67,9 @@ body {
 
 #nav {
 	width: 100%;
+	height: 10%;
 	white-space: nowrap;
-	border-bottom: 1px solid #fff;
+	border-bottom: 3px solid #feb;
 	background-color: #feb;
 }
 
@@ -77,7 +77,7 @@ body {
 	display: inline-block;
 	width: 24.75%;
 	margin-top: 2px;
-	margin-left: .2%;
+	margin-left: 2px;
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	background-color: #333;
@@ -87,12 +87,23 @@ body {
 	font-family: serif;
 	text-decoration: line-through;
 	font-weight: bold;
-	font-size: 24pt;
+	font-size: 22pt;
 	text-shadow: 1px 1px 1px #000;
 }
 #nav .tab:last-child {
 	margin-right: 3px;
 }
+
+.inactive {
+	display: none;
+}
+.active {
+	height: 89%;
+	box-shadow: 0 0 100px #111 inset;
+}
+
+
+
 
 #infoBox {
 	width: 20%;
